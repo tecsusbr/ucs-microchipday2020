@@ -1,0 +1,19 @@
+{
+    "certificateDescription": {
+        "autoRegistrationStatus": "ENABLE",
+        "certificateArn": "arn:aws:iot:us-east-1:064012554665:cacert/126782b9bc74bd71de61646ec1c1de1b99109c042507c354965dcd2b36b450c6",
+        "certificateId": "126782b9bc74bd71de61646ec1c1de1b99109c042507c354965dcd2b36b450c6",
+        "certificatePem": "-----BEGIN CERTIFICATE-----\nMIIBxzCCAW6gAwIBAgIQVo9qH2L+NbV5aF0t2dmQ9DAKBggqhkjOPQQDAjAwMRQw\nEgYDVQQKDAtFeGFtcGxlIEluYzEYMBYGA1UEAwwPRXhhbXBsZSBSb290IENBMB4X\nDTE4MDYwMzEwMjg0OVoXDTI4MDYwMzEwMjg0OVowNDEUMBIGA1UECgwLRXhhbXBs\nZSBJbmMxHDAaBgNVBAMME0V4YW1wbGUgU2lnbmVyIEZGRkYwWTATBgcqhkjOPQIB\nBggqhkjOPQMBBwNCAATJFcEzvvkQWISOMt9b61C10nFYeqIzaeojmUTO+cFDNFls\nfbLWkvHDXALBWTfSGJViuGqX7Ltld4By2ji+7Ofvo2YwZDASBgNVHRMBAf8ECDAG\nAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjAdBgNVHQ4EFgQUiYE2lE8EIpK3tKQk/l+M\nsaXKCV4wHwYDVR0jBBgwFoAUZBJv+lsBZhJ91TBFS/1nR+hK5IowCgYIKoZIzj0E\nAwIDRwAwRAIgNuils3Pn4HR1/Jz6JrGl7UBUh9hchslSZGVhnD8nuY0CIFh4wxYD\nWdWprpHkFSNUxz9janLv4iV51CXcqmlIrBkR\n-----END CERTIFICATE-----\n",
+        "creationDate": "2018-06-03T10:28:51Z",
+        "customerVersion": 1,
+        "generationId": "fc9aa739-ad1c-4454-ab3c-4daeee22922c",
+        "lastModifiedDate": "2018-06-03 06:28:51.522000-04:00",
+        "ownedBy": "064012554665",
+        "status": "ACTIVE"
+    },
+    "device_sn": "0123B4648A94DF39EE",
+    "endpointAddress": "ardxu4qdo1ehy.iot.us-east-1.amazonaws.com",
+    "thing_name": "9363260e36db3ee0671f35f6e2a76fc0ca23a3b4",
+    "wifi_password": "luc4614193",
+    "wifi_ssid": "LucNetwork"
+}

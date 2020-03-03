@@ -1,0 +1,55 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "lab one",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "secretKey",
+                    "slots": [],
+                    "samples": [
+                        "what's the secret",
+                        "what is the secret",
+                        "what is the secret key"
+                    ]
+                },
+                {
+                    "name": "secretMessage",
+                    "slots": [
+                        {
+                            "name": "KEY",
+                            "type": "KEY"
+                        }
+                    ],
+                    "samples": [
+                        "{KEY}",
+                        "the key is {KEY}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "KEY",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "masters"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

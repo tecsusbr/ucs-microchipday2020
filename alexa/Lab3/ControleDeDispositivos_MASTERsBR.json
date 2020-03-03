@@ -1,0 +1,112 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "controle de placa",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Information",
+                    "slots": [],
+                    "samples": [
+                        "Detalhe"
+                    ]
+                },
+                {
+                    "name": "LEDChange",
+                    "slots": [
+                        {
+                            "name": "lightState",
+                            "type": "LIST_OF_STATE"
+                        }
+                    ],
+                    "samples": [
+                        "{lightState} o led amarelo"
+                    ]
+                },
+                {
+                    "name": "getSensorStatus",
+                    "slots": [
+                        {
+                            "name": "sensorType",
+                            "type": "SENSOR_TYPE"
+                        }
+                    ],
+                    "samples": [
+                        "Como está o {sensorType}",
+                        "Como está a {sensorType}",
+                        "Qual a {sensorType}"
+                    ]
+                },
+                {
+                    "name": "HelloResponse",
+                    "slots": [],
+                    "samples": [
+                        "obrigado"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "LIST_OF_STATE",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "desligado",
+                                "synonyms": [
+                                    "apagado",
+                                    "apagar",
+                                    "desligar"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ligado",
+                                "synonyms": [
+                                    "aceso",
+                                    "acender",
+                                    "ligar"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "SENSOR_TYPE",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "led"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "temperatura"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "luminosidade"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,470 @@
+format_version: '2'
+name: ''
+versions:
+  api: '1.0'
+  backend: 1.4.93
+  commit: 9c29f8365cf76e9937d19b1e765a83bc7a80e4e9
+  content: 1.0.1340
+  content_pack_name: acme-packs-all
+  format: '2'
+  frontend: 1.4.1810
+board:
+  identifier: AVRIoTWG
+  device: ATmega4808-MFR
+details: null
+application: null
+middlewares:
+  WIFI_0:
+    user_label: WIFI_0
+    configuration:
+      main_wlan_auth: Wi-Fi network is secured with WPA/WPA2 personal(PSK)
+      main_wlan_psk: microchip
+      main_wlan_ssid: MCHP.IOT
+      wlan_ap_ip_address: 192, 168, 1, 1
+      wlan_ap_name: AVR.IoT
+    definition: Atmel:ATWINC:1.0.0::WINC1510
+    functionality: WiFi_AVR
+    api: WIFI:WINC:Core
+    dependencies:
+      SPI_0: SPI_0
+  Crypto_Authentication_IOTSensor_Node:
+    user_label: Crypto_Authentication_IOTSensor_Node
+    configuration: {}
+    definition: Atmel:Crypto_Auth_Lib:1.0.0::CryptoAuthLib
+    functionality: Crypto_Authentication_IOTSensor_Node
+    api: Crypto:CryptoAuthLib:AVR-IoT-WG
+    dependencies:
+      I2C_0: I2C_0
+drivers:
+  CLKCTRL:
+    user_label: CLKCTRL
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::CLKCTRL::driver_config_definition::CLKCTRL::Drivers:CLKCTRL:Init
+    functionality: System
+    api: Drivers:CLKCTRL:Init
+    configuration:
+      clkctrl_mclkctrla_cksel: 20MHz Internal Oscillator (OSC20M)
+      clkctrl_mclkctrla_clkout: false
+      clkctrl_mclkctrlb_pdiv: '2'
+      clkctrl_mclkctrlb_pen: true
+      clkctrl_mclklock_locken: false
+      clkctrl_osc16mctrla_runstdby: false
+      clkctrl_osc20mctrla_runstdby: false
+      clkctrl_osc32kctrla_runstdby: false
+      clkctrl_xosc32kctrla_csut: 1k cycles
+      clkctrl_xosc32kctrla_runstdby: false
+      clkctrl_xosc32kctrla_sel: false
+      cpu_clock_source: Main Clock (CLK_MAIN)
+      enable_clk_per: true
+      enable_extclk: true
+      enable_main: true
+      enable_osc16m: true
+      enable_osc20m: true
+      enable_osculp1k: true
+      enable_osculp32k: true
+      enable_tcd0: true
+      enable_xosc32kctrla: false
+      extosc: 32768
+      nvm_clock_source: Main Clock (CLK_MAIN)
+      osculp1k_clksel_clksel: 32KHz Internal Ultra Low Power Oscillator (OSCULP32K)
+      ram_clock_source: Main Clock (CLK_MAIN)
+      tcd0_ctrla_clksel: 20MHz Internal Oscillator (OSC20M)
+      tcd0_ctrla_syncpres: '1'
+      xosc32kctrla_arch_enable: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: CPU
+          input: CPU
+        configuration: {}
+  scheduler:
+    user_label: scheduler
+    definition: 'Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::RTC::driver_config_definition::Timeout::Drivers:Timeout:'
+    functionality: Timer
+    api: 'Drivers:Timeout:'
+    configuration:
+      enable_rtc: true
+      rtc_clksel_clksel: 32KHz divided by 32
+      rtc_cmp: 0
+      rtc_cnt: 0
+      rtc_ctrla_prescaler: '1'
+      rtc_ctrla_rtcen: true
+      rtc_ctrla_runstdby: false
+      rtc_dbgctrl_dbgrun: false
+      rtc_intctrl_cmp: false
+      rtc_intctrl_ovf: true
+      rtc_per: 65535
+      rtc_pitctrla_period: 'Off'
+      rtc_pitctrla_piten: false
+      rtc_pitdbgctrl_dbgrun: false
+      rtc_pitintctrl_pi: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: RTC
+          input: RTC Clock (CLK_RTC)
+        configuration:
+          rtc_clock_source: RTC Clock (CLK_RTC)
+  ADC_0:
+    user_label: ADC_0
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::ADC0::driver_config_definition::ADC.Basic::Drivers:ADC:Basic
+    functionality: ADC
+    api: Drivers:ADC:Basic
+    configuration:
+      adc_calib_dutycyc: 50% Duty cycle
+      adc_ctrla_enable: true
+      adc_ctrla_freerun: false
+      adc_ctrla_ressel: 10-bit mode
+      adc_ctrla_runstby: false
+      adc_ctrlb_sampnum: 1 ADC sample
+      adc_ctrlc_presc: CLK_PER divided by 16
+      adc_ctrlc_refsel: VDD
+      adc_ctrlc_sampcap: false
+      adc_ctrld_asdv: false
+      adc_ctrld_initdly: Delay 0 CLK_ADC cycles
+      adc_ctrld_sampdly: 0
+      adc_ctrle_wincm: No Window Comparison
+      adc_dbgctrl_dbgrun: false
+      adc_evctrl_startei: false
+      adc_intctrl_resrdy: false
+      adc_intctrl_wcmp: false
+      adc_muxpos_muxpos: ADC input pin 5
+      adc_sampctrl_samplen: 0
+      adc_sampling_config: false
+      adc_winht: 0
+      adc_winlt: 0
+    optional_signals:
+    - identifier: ADC_0:AIN/5
+      pad: PD5
+      mode: Enabled
+      configuration: null
+      definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::optional_signal_definition::ADC0.AIN.5
+      name: ADC0/AIN/5
+      label: AIN/5
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: ADC
+          input: Main Clock (CLK_MAIN)
+        configuration:
+          adc_clock_source: Main Clock (CLK_MAIN)
+  USART_0:
+    user_label: USART_0
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::USART2::driver_config_definition::Async.IRQ.Mode::Drivers:USART:Basic
+    functionality: USART
+    api: Drivers:USART:Basic
+    configuration:
+      baud_rate: 9600
+      ctrla_abeie: false
+      ctrla_dreie: false
+      ctrla_lbme: false
+      ctrla_rs485: RS485 Mode disabled
+      ctrla_rxcie: false
+      ctrla_rxsie: false
+      ctrla_txcie: false
+      ctrlb_mpcm: false
+      ctrlb_odme: false
+      ctrlb_rxen: true
+      ctrlb_rxmode: Normal mode
+      ctrlb_sfden: false
+      ctrlb_txen: true
+      ctrlc_chsize: 'Character size: 8 bit'
+      ctrlc_cmode: Asynchronous USART
+      ctrlc_pmode: No Parity
+      ctrlc_sbmode: 1 stop bit
+      ctrlc_ucpha: false
+      ctrlc_udord: false
+      dbgctrl_abmbp: false
+      dbgctrl_dbgrun: false
+      driver_rx_buffer_size: '64'
+      driver_tx_buffer_size: '32'
+      evctrl_irei: false
+      printf_support: true
+      rxplctrl_rxpl: 0
+      txplctrl_txpl: 0
+    optional_signals: []
+    variant:
+      specification: CMODE=0
+      required_signals:
+      - name: USART2/RXD
+        pad: PF1
+        label: RXD
+      - name: USART2/TXD
+        pad: PF0
+        label: TXD
+    clocks:
+      domain_group:
+        nodes:
+        - name: USART
+          input: Main Clock (CLK_MAIN)
+        configuration:
+          usart_clock_source: Main Clock (CLK_MAIN)
+  SPI_0:
+    user_label: SPI_0
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::SPI0::driver_config_definition::SPI.Master.Polled::Drivers:SPI:Basic
+    functionality: SPI
+    api: Drivers:SPI:Basic
+    configuration:
+      spi_ctrla_clk2x: true
+      spi_ctrla_dord: false
+      spi_ctrla_enable: true
+      spi_ctrla_master: true
+      spi_ctrla_presc: System Clock / 4
+      spi_ctrlb_bufen: false
+      spi_ctrlb_bufwr: false
+      spi_ctrlb_mode: SPI Mode 0
+      spi_ctrlb_ssd: false
+      spi_intctrl_dreie: false
+      spi_intctrl_ie: false
+      spi_intctrl_rxcie: false
+      spi_intctrl_ssie: false
+      spi_intctrl_txcie: false
+      spi_open_close: false
+    optional_signals: []
+    variant:
+      specification: MASTER=1
+      required_signals:
+      - name: SPI0/MISO
+        pad: PA5
+        label: MISO
+      - name: SPI0/MOSI
+        pad: PA4
+        label: MOSI
+      - name: SPI0/SCK
+        pad: PA6
+        label: SCK
+    clocks:
+      domain_group:
+        nodes:
+        - name: SPI
+          input: Main Clock (CLK_MAIN)
+        configuration:
+          spi_clock_source: Main Clock (CLK_MAIN)
+  CPUINT:
+    user_label: CPUINT
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::CPUINT::driver_config_definition::CPUINT::Drivers:CPUINT:Init
+    functionality: System
+    api: Drivers:CPUINT:Init
+    configuration:
+      cpuint_ctrla_cvt: false
+      cpuint_ctrla_ivsel: false
+      cpuint_ctrla_lvl0rr: false
+      cpuint_global_interrupt: false
+      cpuint_lvl0pri_lvl0pri: 0
+      cpuint_lvl1vec_lvl1vec: 0
+      inc_isr_harness: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group: null
+  SLPCTRL:
+    user_label: SLPCTRL
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::SLPCTRL::driver_config_definition::SLPCTRL::Drivers:SLPCTRL:Init
+    functionality: System
+    api: Drivers:SLPCTRL:Init
+    configuration:
+      slpctrl_ctrla_sen: false
+      slpctrl_ctrla_smode: Idle mode
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group: null
+  I2C_0:
+    user_label: I2C_0
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::TWI0::driver_config_definition::Interrupt::Drivers:I2C:Master
+    functionality: I2C
+    api: Drivers:I2C:Master
+    configuration:
+      f_scl: 100000
+      t_rise: 0
+      twi_advanced_config: false
+      twi_ctrla_fmpen: false
+      twi_ctrla_sdahold: SDA hold time off
+      twi_ctrla_sdasetup: SDA setup time is 4 clock cycles
+      twi_dbgctrl_dbgrun: false
+      twi_mctrla_enable: true
+      twi_mctrla_qcen: false
+      twi_mctrla_rien: true
+      twi_mctrla_smen: false
+      twi_mctrla_timeout: Bus Timeout Disabled
+      twi_mctrla_wien: true
+      twi_mstatus_busstate: Bus is Idle
+    optional_signals:
+    - identifier: I2C_0:SCL
+      pad: PA3
+      mode: Enabled
+      configuration: null
+      definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::optional_signal_definition::TWI0.SCL
+      name: TWI0/SCL
+      label: SCL
+    - identifier: I2C_0:SDA
+      pad: PA2
+      mode: Enabled
+      configuration: null
+      definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::optional_signal_definition::TWI0.SDA
+      name: TWI0/SDA
+      label: SDA
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: TWI
+          input: Main Clock (CLK_MAIN)
+        configuration:
+          twi_clock_source: Main Clock (CLK_MAIN)
+  BOD:
+    user_label: BOD
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::BOD::driver_config_definition::BOD::Drivers:BOD:Init
+    functionality: System
+    api: Drivers:BOD:Init
+    configuration:
+      bod_ctrla_sleep: Disabled
+      bod_intctrl_vlmcfg: Interrupt when supply goes above VLM level
+      bod_intctrl_vlmie: false
+      bod_vlmctrla_vlmlvl: VLM threshold 5% above BOD level
+      inc_isr_harness: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: BOD
+          input: 32KHz divided by 32
+        configuration:
+          bod_clock_source: 32KHz divided by 32
+pads:
+  PA3:
+    name: PA3
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA3
+    mode: Advanced
+    user_label: PA3
+    configuration: null
+  CONF_WIFI_M2M_SPI_MOSI_PIN:
+    name: PA4
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA4
+    mode: Digital output
+    user_label: CONF_WIFI_M2M_SPI_MOSI_PIN
+    configuration: null
+  CONF_WIFI_M2M_SPI_MISO_PIN:
+    name: PA5
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA5
+    mode: Digital input
+    user_label: CONF_WIFI_M2M_SPI_MISO_PIN
+    configuration: null
+  CONF_WIFI_M2M_SPI_SCK_PIN:
+    name: PA6
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA6
+    mode: Digital output
+    user_label: CONF_WIFI_M2M_SPI_SCK_PIN
+    configuration: null
+  CONF_WIFI_M2M_SPI_CS_PIN:
+    name: PA7
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA7
+    mode: Digital output
+    user_label: CONF_WIFI_M2M_SPI_CS_PIN
+    configuration:
+      pad_initial_level: High
+  LED_RED:
+    name: PD0
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PD0
+    mode: Digital output
+    user_label: LED_RED
+    configuration:
+      pad_initial_level: High
+  LED_YELLOW:
+    name: PD1
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PD1
+    mode: Digital output
+    user_label: LED_YELLOW
+    configuration:
+      pad_initial_level: High
+  LED_GREEN:
+    name: PD2
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PD2
+    mode: Digital output
+    user_label: LED_GREEN
+    configuration:
+      pad_initial_level: High
+  LED_BLUE:
+    name: PD3
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PD3
+    mode: Digital output
+    user_label: LED_BLUE
+    configuration:
+      pad_initial_level: High
+  PD5:
+    name: PD5
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PD5
+    mode: Analog
+    user_label: PD5
+    configuration: null
+  PF0:
+    name: PF0
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF0
+    mode: Digital output
+    user_label: PF0
+    configuration: null
+  PF1:
+    name: PF1
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF1
+    mode: Digital input
+    user_label: PF1
+    configuration: null
+  CONF_WIFI_M2M_INT_PIN:
+    name: PF2
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF2
+    mode: Digital input
+    user_label: CONF_WIFI_M2M_INT_PIN
+    configuration:
+      pad_pull_config: Pull-up
+  CONF_WIFI_M2M_CHIP_ENABLE_PIN:
+    name: PF3
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF3
+    mode: Digital output
+    user_label: CONF_WIFI_M2M_CHIP_ENABLE_PIN
+    configuration: null
+  CONF_WIFI_M2M_WAKE_PIN:
+    name: PF4
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF4
+    mode: Digital output
+    user_label: CONF_WIFI_M2M_WAKE_PIN
+    configuration: null
+  SW1:
+    name: PF5
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF5
+    mode: Digital input
+    user_label: SW1
+    configuration:
+      pad_pull_config: Pull-up
+  SW0:
+    name: PF6
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PF6
+    mode: Digital input
+    user_label: SW0
+    configuration:
+      pad_pull_config: Pull-up
+  CONF_WIFI_M2M_RESET_PIN:
+    name: PA1
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA1
+    mode: Digital output
+    user_label: CONF_WIFI_M2M_RESET_PIN
+    configuration: null
+  PA2:
+    name: PA2
+    definition: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::pad::PA2
+    mode: Advanced
+    user_label: PA2
+    configuration: null
+toolchain_options:
+- definition:
+    identifier: Atmel:ATmega4809_drivers:1.0.0::ATmega4808-MFR::environment_definition::All:Atmel.Studio:7.0.0
+  configuration:
+    compiler_config:
+      avrgcc_compiler_miscellaneous_OtherFlags: -std=gnu99 -Wno-pragmas -DATCA_NO_HEAP
+        -DATCA_NO_POLL -DATCA_HAL_I2C -DATCA_PRINTF -DTCPIP_BSD -Os
+    linker_config:
+      avrgcc_linker_miscellaneous_LinkerFlags: ''
