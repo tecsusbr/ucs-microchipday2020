@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Microchip</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+    <style>
+        span.thumbnail:hover, span.thumbnail:focus, span.thumbnail.active {
+            border-color: #337ab7;
+            cursor: pointer;
+        }
+        .red {
+            font-weight: bold;
+            /*color: red !important;*/
+            text-align: center;
+        }
+        .green {
+            font-weight: bold;
+            /*color: green !important;*/
+            text-align: center;
+        }
+        #tempo div{
+            position: fixed;
+            top: 45%;
+            left: 45%;
+            z-index: 10;
+        }
+        #tempo {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.5);
+            z-index: 100;
+            position: absolute;
+        }
+        .caption {
+            position: relative;
+        }
+        .caption img {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            width: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tempo">
+        <div>
+            <img src="static/image/ajax-loader8.gif" alt="aguarde" width="100">
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <div class="page-header">
+                    <h1><img src="static/image/tecsus.png" alt="TecSUS" width="90">
+					<img src="static/image/logo.png" alt="Microchip" width="300">
+                        <small>Street Light</small>
+		
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 col-md-2 col-lg-1 col-sm-offset-5">
+                <a href="#" class="thumbnail" onclick="allposte(this, 1);">
+                    <img src="static/image/All-On.png" width="100" alt="0">
+                </a>
+            </div>
+            <div class="col-sm-3 col-md-2 col-lg-1">
+                <a href="#" class="thumbnail" onclick="allposte(this, 0);">
+                    <img src="static/image/All-Off.png" width="100" alt="0">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row postes">
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="1">
+                <div class="caption red">
+                    <p>Street Light 001</p>
+                    <p>Temperatura <span id="t1"></span> &deg;C</p>
+                    <p>Umidade <span id="u1"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="2">
+                <div class="caption red">
+                    <p>Street Light 002</p>
+                    <p>Temperatura <span id="t2"></span> &deg;C</p>
+                    <p>Umidade <span id="u2"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="3">
+                <div class="caption red">
+                    <p>Street Light 003</p>
+                    <p>Temperatura <span id="t3"></span> &deg;C</p>
+                    <p>Umidade <span id="u3"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="4">
+                <div class="caption red">
+                    <p>Street Light 004</p>
+                    <p>Temperatura <span id="t4"></span> &deg;C</p>
+                    <p>Umidade <span id="u4"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="5">
+                <div class="caption red">
+                    <p>Street Light 005</p>
+                    <p>Temperatura <span id="t5"></span> &deg;C</p>
+                    <p>Umidade <span id="u5"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="6">
+                <div class="caption red">
+                    <p>Street Light 006</p>
+                    <p>Temperatura <span id="t6"></span> &deg;C</p>
+                    <p>Umidade <span id="u6"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="7">
+                <div class="caption red">
+                    <p>Street Light 007</p>
+                    <p>Temperatura <span id="t7"></span> &deg;C</p>
+                    <p>Umidade <span id="u7"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="8">
+                <div class="caption red">
+                    <p>Street Light 008</p>
+                    <p>Temperatura <span id="t8"></span> &deg;C</p>
+                    <p>Umidade <span id="u8"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="9">
+                <div class="caption red">
+                    <p>Street Light 009</p>
+                    <p>Temperatura <span id="t9"></span> &deg;C</p>
+                    <p>Umidade <span id="u9"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="10">
+                <div class="caption red">
+                    <p>Street Light 010</p>
+                    <p>Temperatura <span id="t10"></span> &deg;C</p>
+                    <p>Umidade <span id="u10"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="11">
+                <div class="caption red">
+                    <p>Street Light 011</p>
+                    <p>Temperatura <span id="t11"></span> &deg;C</p>
+                    <p>Umidade <span id="u11"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="12">
+                <div class="caption red">
+                    <p>Street Light 012</p>
+                    <p>Temperatura <span id="t12"></span> &deg;C</p>
+                    <p>Umidade <span id="u12"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="13">
+                <div class="caption red">
+                    <p>Street Light 013</p>
+                    <p>Temperatura <span id="t13"></span> &deg;C</p>
+                    <p>Umidade <span id="u13"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="14">
+                <div class="caption red">
+                    <p>Street Light 014</p>
+                    <p>Temperatura <span id="t14"></span> &deg;C</p>
+                    <p>Umidade <span id="u14"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="15">
+                <div class="caption red">
+                    <p>Street Light 015</p>
+                    <p>Temperatura <span id="t15"></span> &deg;C</p>
+                    <p>Umidade <span id="u15"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="16">
+                <div class="caption red">
+                    <p>Street Light 016</p>
+                    <p>Temperatura <span id="t16"></span> &deg;C</p>
+                    <p>Umidade <span id="u16"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="17">
+                <div class="caption red">
+                    <p>Street Light 017</p>
+                    <p>Temperatura <span id="t17"></span> &deg;C</p>
+                    <p>Umidade <span id="u17"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="18">
+                <div class="caption red">
+                    <p>Street Light 018</p>
+                    <p>Temperatura <span id="t18"></span> &deg;C</p>
+                    <p>Umidade <span id="u18"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="19">
+                <div class="caption red">
+                    <p>Street Light 019</p>
+                    <p>Temperatura <span id="t19"></span> &deg;C</p>
+                    <p>Umidade <span id="u19"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2">
+            <span href="#" class="thumbnail" onclick="oneposte(this);">
+                <img src="static/image/One-Off.png" width="100" alt="20">
+                <div class="caption red">
+                    <p>Street Light 020</p>
+                    <p>Temperatura <span id="t20"></span> &deg;C</p>
+                    <p>Umidade <span id="u20"></span>%</p>
+                </div>
+                <img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+            </span>
+        </div>
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="21">
+				<div class="caption red">
+					<p>Street Light 021</p>
+					<p>Temperatura <span id="t21"></span> &deg;C</p>
+					<p>Umidade <span id="u21"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>
+    
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="22">
+				<div class="caption red">
+					<p>Street Light 022</p>
+					<p>Temperatura <span id="t22"></span> &deg;C</p>
+					<p>Umidade <span id="u22"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="23">
+				<div class="caption red">
+					<p>Street Light 023</p>
+					<p>Temperatura <span id="t23"></span> &deg;C</p>
+					<p>Umidade <span id="u23"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="24">
+				<div class="caption red">
+					<p>Street Light 024</p>
+					<p>Temperatura <span id="t24"></span> &deg;C</p>
+					<p>Umidade <span id="u24"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="25">
+				<div class="caption red">
+					<p>Street Light 025</p>
+					<p>Temperatura <span id="t25"></span> &deg;C</p>
+					<p>Umidade <span id="u25"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="26">
+				<div class="caption red">
+					<p>Street Light 026</p>
+					<p>Temperatura <span id="t26"></span> &deg;C</p>
+					<p>Umidade <span id="u26"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="27">
+				<div class="caption red">
+					<p>Street Light 027</p>
+					<p>Temperatura <span id="t27"></span> &deg;C</p>
+					<p>Umidade <span id="u27"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>	
+		
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="28">
+				<div class="caption red">
+					<p>Street Light 028</p>
+					<p>Temperatura <span id="t28"></span> &deg;C</p>
+					<p>Umidade <span id="u28"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>	
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="29">
+				<div class="caption red">
+					<p>Street Light 029</p>
+					<p>Temperatura <span id="t29"></span> &deg;C</p>
+					<p>Umidade <span id="u29"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>	
+
+		<div class="col-sm-3 col-md-3 col-lg-2">
+			<span href="#" class="thumbnail" onclick="oneposte(this);">
+				<img src="static/image/One-Off.png" width="100" alt="30">
+				<div class="caption red">
+					<p>Street Light 030</p>
+					<p>Temperatura <span id="t30"></span> &deg;C</p>
+					<p>Umidade <span id="u30"></span>%</p>
+				</div>
+				<img src="static/image/ajax-loader8.gif" style="width: 30px; position: absolute; top: 40px; left: 50%; display: none;">
+			</span>
+		</div>			
+    </div>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        //sample HTML/JS script that will publish/subscribe to topics in the Google Chrome Console
+        //by Matthew Bordignon @bordignon on twitter.
+        var wsbroker = "mqtt.eclipse.org";  //mqtt websocket enabled broker
+        var wsport = 80 // port for above
+        var topico = "techday2020/strlight/cmd/";
+        var TOTAL = 30;
+        var client = new Paho.MQTT.Client(wsbroker, wsport, "myclientid_" + parseInt(Math.random() * 100, 10));
+        client.onConnectionLost = function (responseObject) {
+            console.log("connection lost: " + responseObject.errorMessage);
+            client.connect(options);
+        };
+        client.onMessageArrived = function (message) {
+            console.log(message.destinationName, ' -- ', message.payloadString);
+            var payload = JSON.parse(message.payloadString);
+            console.log(payload);
+            if (payload.light === 1) {
+                $('.thumbnail>img[alt=' + payload.uid + ']').attr('src', 'static/image/One-On.png');
+            } else if (payload.light === 0) {
+                $('.thumbnail>img[alt=' + payload.uid + ']').attr('src', 'static/image/One-Off.png');
+            }
+            $("#t" + payload.uid).text(payload.temp);
+            $("#u" + payload.uid).text(payload.hum);
+        };
+        var options = {
+            timeout: 3,
+            useSSL: false,
+            onSuccess: function () {
+                console.log("mqtt connected");
+                // Connection succeeded; subscribe to our topic, you can add multile lines of these
+                for (var i = 1; i <= TOTAL; i++) {
+                    client.subscribe(topico + i, { qos: 1 });
+                    console.log("TOPICO =>", topico + i);
+                }
+
+
+                //use the below if you want to publish to a topic on connect
+                // message = new Paho.MQTT.Message("Hello");
+                // message.destinationName = topico;
+                // client.send(message);
+
+            },
+            onFailure: function (message) {
+                console.log("Connection failed: " + message.errorMessage);
+            }
+        };
+
+        client.connect(options);
+
+        poste = {
+            '1': false, '2': false, '3': false, '4': false, '5': false, '6': false, '7': false, '8': false, '9': false, '10': false,
+            '11': false, '12': false, '13': false, '14': false, '15': false, '16': false, '17': false, '18': false, '19': false, '20': false
+        };
+        var tempo = 2;
+        var myVar = setInterval(function () {
+            if (tempo == 0) {
+                myStopFunction();
+            }
+            tempo -= 1;
+        }, 1000);
+        function myStopFunction() {
+            clearInterval(myVar);
+            $("#tempo").hide();
+        }
+        // ws.onmessage = function(e){
+        //     console.log(e.data);
+        //     var sp = '';
+        //     if (e.data.indexOf('@') == 0){
+        //         sp = e.data.split(';');
+        //         var pnum = sp[1];
+        //         if (sp[3] == '1'){
+        //             $('.caption>img[alt=' + pnum + ']').attr('src', 'static/image/green_circle.png');
+        //         }else{
+        //             $('.caption>img[alt=' + pnum + ']').attr('src', 'static/image/red_circle.png');
+        //         }
+        //         if (poste[sp[1]] == false){
+        //             if (sp[2] == '1'){
+        //                 $('.thumbnail>img[alt='+pnum+']').attr('src', 'static/image/One-On.png');
+        //             }else{
+        //                 $('.thumbnail>img[alt='+pnum+']').attr('src', 'static/image/One-Off.png');
+        //             }
+        //             poste[sp[1]] == true;
+        //             $('.thumbnail>img[alt='+pnum+']').parent().children().last().hide();
+        //         }
+
+        //     }else{
+        //         sp = e.data;
+        //         console.log('recebido: ', sp);
+        //         if(sp.indexOf('$') == 0){
+        //             var num = sp.substr(1);
+        //             console.log('>>>>', num);
+        //             if($('.thumbnail>img[alt='+num+']').attr('src').indexOf('One-On') < 0){
+        //                 $('.thumbnail>img[alt='+num+']').attr('src', 'static/image/One-On.png');
+        //             }else{
+        //                 $('.thumbnail>img[alt='+num+']').attr('src', 'static/image/One-Off.png');
+        //             }
+        //             $('.thumbnail>img[alt='+num+']').parent().children().last().hide();
+        //         }
+        //     }
+
+        // };
+        function oneposte(poste) {
+            var luz = 0;
+            var ui = parseInt($(poste).children().first().attr('alt'));
+            if ($(poste).children().first().attr('src').indexOf('One-On') >= 0) {
+                luz = 0;
+                $(poste).children().first().attr('src', 'static/image/One-Off.png');
+            } else {
+                luz = 1;
+                $(poste).children().first().attr('src', 'static/image/One-On.png');
+            }
+            message = new Paho.MQTT.Message(JSON.stringify({ uid: ui, light: luz }));
+            message.destinationName = "techday2020/strlight/rec/";
+            client.send(message);
+            // $(poste).children().last().show();
+        }
+        function allposte(poste, lamp) {
+            var ui = parseInt($(poste).children().first().attr('alt'));
+
+            message = new Paho.MQTT.Message(JSON.stringify({ uid: ui, light: lamp }));
+            message.destinationName = "techday2020/strlight/rec/";
+            client.send(message);
+        }
+    </script>
+</body>
+
+</html>
